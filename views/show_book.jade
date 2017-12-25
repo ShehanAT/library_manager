@@ -1,0 +1,51 @@
+extends layout
+
+
+block content
+ h1 Book: #{book.title}
+    form(action='/book/'+book.id, method='post' name='id')
+      p
+        label(for='title') Title
+        input#title(type='text', value=book.title name='title')
+      p
+        label(for='author') Author
+        input#author(type='text', value=book.author name='author')
+      p
+        label(for='genre') Genre
+        input#genre(type='text', value=book.genre name='genre')
+      p
+        label(for='first_published') First Published
+        input#first_published(type='text', value=book.first_published name='first_published')
+      p
+        input(type='submit', value='Update')
+    if(err)
+        for error in err
+            h3 #{error.message}
+    h2 Loan History
+    table
+      thead
+        tr
+          th Book
+          th Patron 
+          th Loaned on
+          th Return by 
+          th Returned on
+          th Action
+      tbody
+       for rowItem in book.Loans
+        tr
+          td
+            a(href='/book/'+book.id) #{book.title}
+          td
+            a(href='/patron/'+rowItem.Patron.id) #{rowItem.Patron.first_name} #{rowItem.Patron.last_name}
+          td #{rowItem.loaned_on}
+          td #{rowItem.return_by}
+          td 
+            if (!rowItem.returned_on)
+             p null
+            else
+             p #{rowItem.returned_on}
+          td
+            if (!rowItem.returned_on)
+             a.button(href='/book/return/'+book.id) Return Book
+

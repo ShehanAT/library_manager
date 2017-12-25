@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+    body
+        h1 Overdue Books
+        p
+        a.button(href='/book/new_book') Create New Book
+        p
+        | Filters 
+        a(href='/book') All
+        |  
+        a(href='/book/overdue_book') Overdue
+        |  
+        a(href='/book/checked_out') Checked Out
+        table
+            thead
+                tr
+                th Title
+                th Author
+                th Genre
+                th Year Released
+            tbody
+            for each in book
+                tr
+                td
+                    a(href='/book/'+each.id) #{each.title}
+                td #{each.author}
+                td #{each.genre}
+                td #{each.first_published}
+                

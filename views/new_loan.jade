@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1 New Loan
+    form(action="/loan", method="post")
+      p
+        label(for='book_id') Book
+        
+        select#book_id(name='book_id')
+         for each in loan 
+          option(value=`${each.id}` name='book_id') #{each.title}
+          
+          
+      p
+        label(for='patron_id') Patron
+        select#patron_id(name='patron_id')
+          for eachs in patron
+           option(value=eachs.id name='patron_id') #{eachs.dataValues.first_name} #{eachs.dataValues.last_name}
+      p
+        label(for='loaned_on') Loaned on:
+          input#loaned_on(type='text', value=currentDate name='loaned_on') 
+      p
+        label(for='return_by') Return by:
+          input#return_by(type='text', value=sevenDays name='return_by')
+      p
+        input(type='submit')
+      if(err)
+        for error in err
+            h3 #{error.message}

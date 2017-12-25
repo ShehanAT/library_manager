@@ -1,0 +1,37 @@
+extends layout
+
+
+block content 
+   h1 Patron: Return Book
+        p
+        strong Book Title: 
+         if (!book.title)
+          | null
+         else
+          | #{book.title}
+        p
+        strong Loaned By:
+         if (book.Loans[0] == undefined)
+          | null
+         else 
+          | #{book.Loans[0].Patron.first_name} #{book.Loans[0].Patron.last_name}
+        p
+        strong Loaned On: 
+         if (book.Loans[0] == undefined)
+          | null
+         else
+          | #{book.Loans[0].loaned_on}
+        p
+        strong Return By: 
+         if (book.Loans[0] == undefined)
+          | null
+         else
+          | #{book.Loans[0].return_by}
+        form(action='/book/return/'+ book.id, method='post')
+            p
+                label(for='returned_on') Returned on:
+                input#returned_on(type='text', value=moment(today).format('YYYY-MM-DD') name='returned_on')
+            p
+                input(type='submit', value='Return Book')
+            if(err)
+              p #{err}

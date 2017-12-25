@@ -1,0 +1,26 @@
+extends layout
+
+
+block content
+    h1 New Book
+    form(action="/", method="post")
+        div
+            label(for="title") title:
+                input(type="text", name="title" value=book.title)
+                
+        div
+            label(for="author") author:
+                input(type="text", name="author" value=book.author)
+
+        div
+            label(for="body") Genre:
+                input(type="text", name="genre" value=book.genre)
+        div
+            label(for="body") First Published:
+                input(type="text", name="first_published" value=book.first_published)
+            input(type="submit")
+        if(err)
+            for error in err
+                h3 #{error.message}
+        
+
