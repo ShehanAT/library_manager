@@ -88,8 +88,7 @@ router.get('/book/return/:id', (req, res, next)=>{
     })
 })
 router.post('/book/return/:id', (req, res ,next)=>{
-  if(req.body.returned_on && req.body.returned_on.match(/([A-Za-z])\w+/g) === null && req.body.returned_on <= today){
-    console.log('passing2');
+  if(req.body.returned_on && req.body.returned_on.match(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/) && req.body.returned_on < today){
     Book.findById(req.params.id, {include: [{ model: Loan}]}).then(function(book){
       Loan.update(req.body, {
         where: [{
@@ -103,7 +102,6 @@ router.post('/book/return/:id', (req, res ,next)=>{
       console.log(err);
     })
   }else{
-    console.log(req.body.returned_on <= today);
     Book.findById(req.params.id,
       {include: [{ model: Loan, include:[{ model: Patron }] }]})
     .then(function(book){

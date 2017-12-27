@@ -24,6 +24,7 @@ block content
                 th Returned On
                 th Book Name
                 th Patron Name
+                th Action
             tbody
              for loans in loan
               tr
@@ -40,4 +41,7 @@ block content
                     a(href='/book/' + loans.Book.dataValues.id) #{loans.Book.dataValues.title}
                 td 
                     a(href='/patron/'+loans.Patron.id) #{loans.Patron.dataValues.first_name} #{loans.Patron.dataValues.last_name}
+                if(!loans.returned_on)
+                    td 
+                        a.button(href='/loan/'+ loans.book_id+ '/return') Return Book
                         
