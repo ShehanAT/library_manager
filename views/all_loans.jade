@@ -34,7 +34,7 @@ block content
                 td #{loans.return_by}
                 td
                  if (!loans.returned_on)
-                    p null
+                    p Not Returned Yet
                  else
                     p #{loans.returned_on}
                 td
@@ -43,5 +43,5 @@ block content
                     a(href='/patron/'+loans.Patron.id) #{loans.Patron.dataValues.first_name} #{loans.Patron.dataValues.last_name}
                 if(!loans.returned_on)
                     td 
-                        a.button(href='/loan/'+ loans.book_id+ '/return') Return Book
+                        a.button(href='/book/return/'+ loans.id) Return Book
                         

@@ -5,29 +5,29 @@ block content
    h1 Patron: Return Book
         p
         strong Book Title: 
-         if (!book.title)
-          | null
+         if (!loan.Book.title)
+          | Null
          else
-          | #{book.title}
+          | #{loan.Book.title}
         p
         strong Loaned By:
-         if (book.Loans[0] == undefined)
-          | null
+         if (loan.loaned_on == undefined)
+          | Null
          else 
-          | #{book.Loans[0].Patron.first_name} #{book.Loans[0].Patron.last_name}
+          | #{loan.Patron.first_name} #{loan.Patron.last_name}
         p
         strong Loaned On: 
-         if (book.Loans[0] == undefined)
-          | null
+         if (loan.loaned_on == undefined)
+          | Null
          else
-          | #{book.Loans[0].loaned_on}
+          | #{moment(loan.loaned_on).format('YYYY-MM-DD')}
         p
         strong Return By: 
-         if (book.Loans[0] == undefined)
-          | null
+         if (loan.return_by == undefined)
+          | Not Returned 
          else
-          | #{book.Loans[0].return_by}
-        form(action='/book/return/'+ book.id, method='post')
+          | #{moment(loan.return_by).format('YYYY-MM-DD')}
+        form(action='/book/return/'+ loan.id, method='post')
             p
                 label(for='returned_on') Returned on:
                 input#returned_on(type='text', value=moment(today).format('YYYY-MM-DD') name='returned_on')

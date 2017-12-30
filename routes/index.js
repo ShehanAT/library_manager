@@ -60,7 +60,7 @@ router.post('/', function(req, res, next){
 router.get('/book/:id', function(req, res, next){
   Book.findById(req.params.id, 
     {include: [{ model: Loan, include:[{ model: Patron }] }]}).then(function(book){
-    res.render('show_book', {book:book});
+    res.render('show_book', {book:book, moment:moment});
   }).catch((err)=>{
     console.log(err);
   })
@@ -79,20 +79,23 @@ router.post('/book/:id', function(req, res, next){
 })
 })
 router.get('/book/return/:id', (req, res, next)=>{
-  Book.findById(req.params.id,
-    {include: [{ model: Loan, include:[{ model: Patron }] }]}).then(function(book){
-      console.log(book);
-      res.render('return_book', {book:book, today: today, moment:moment});
-    }).catch((err)=>{
-      console.log(err);
-    })
+  Loan.findAll({where: {id: req.params.id}, include: [{ model: Patron}, {model: Book}]})
+  .then(loans => {
+    res.render('return_book', { loan:loans[0], today, moment:moment});
+
+  })
+  .catch(err => {
+    console.log(err);
+    response.sendStatus(500);
+  });
 })
 router.post('/book/return/:id', (req, res ,next)=>{
-  if(req.body.returned_on && req.body.returned_on.match(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/) && req.body.returned_on < today){
+  if(req.body.returned_on && req.body.returned_on.match(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/) && req.body.returned_on >= today){
     Book.findById(req.params.id, {include: [{ model: Loan}]}).then(function(book){
+      console.log(req.params.id);
       Loan.update(req.body, {
         where: [{
-          book_id: req.params.id
+          id: req.params.id
         }]
       })
       return book;
