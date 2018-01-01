@@ -20,13 +20,13 @@ block content
          if (loan == undefined)
           | Null
          else
-          | #{moment(loan.loaned_on).format('YYYY-MM-DD')}
+          | #{loan.loaned_on}
         p
         strong Return By: 
          if (loan == undefined)
           | Not Returned 
          else
-          | #{moment(loan.return_by).format('YYYY-MM-DD')}
+          | #{loan.return_by}
         form(action='/book/return/'+ loan.id, method='post')
             p
                 label(for='returned_on') Returned on:
