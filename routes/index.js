@@ -17,7 +17,7 @@ router.get('/book', function(req, res, next) {
   })
 });
 router.get('/book/new_book', function(req, res, next){
-  res.render('new_book.jade',{book: Book.build()});
+  res.render('new_book.pug',{book: Book.build()});
 });
 router.get('/book/overdue_book', (req, res, next)=> {
   Book.findAll({include: [{ 
@@ -74,7 +74,7 @@ router.post('/book/:id', function(req, res, next){
   }).catch((err)=>{
     Book.findById(req.params.id, 
       {include: [{ model: Loan, include:[{ model: Patron }] }]}).then(function(book){
-      res.render('show_book', {book:book, err:err.errors});
+      res.render('show_book', {book:book, err:err.errors, momemt:moment});
   })
 })
 })
@@ -105,11 +105,11 @@ router.post('/book/return/:id', (req, res ,next)=>{
       console.log(err);
     })
   }else{
-    Book.findById(req.params.id,
-      {include: [{ model: Loan, include:[{ model: Patron }] }]})
-    .then(function(book){
+    console.log('passing');
+    Loan.findAll({where: {id: req.params.id}, include: [{ model: Patron}, {model: Book}]})
+    .then(function(loan){
       var err = 'Please enter a valid return date';
-      res.render('return_book',{book:book, today: today, moment:moment, err:err});
+      res.render('return_book',{loan:loan[0], today: today, moment:moment, err:err});
     }).catch((err)=>{
       console.log(err);
     })

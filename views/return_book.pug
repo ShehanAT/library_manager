@@ -5,25 +5,25 @@ block content
    h1 Patron: Return Book
         p
         strong Book Title: 
-         if (!loan.Book.title)
+         if (!loan)
           | Null
          else
           | #{loan.Book.title}
         p
         strong Loaned By:
-         if (loan.loaned_on == undefined)
+         if (loan == undefined)
           | Null
          else 
           | #{loan.Patron.first_name} #{loan.Patron.last_name}
         p
         strong Loaned On: 
-         if (loan.loaned_on == undefined)
+         if (loan == undefined)
           | Null
          else
           | #{moment(loan.loaned_on).format('YYYY-MM-DD')}
         p
         strong Return By: 
-         if (loan.return_by == undefined)
+         if (loan == undefined)
           | Not Returned 
          else
           | #{moment(loan.return_by).format('YYYY-MM-DD')}

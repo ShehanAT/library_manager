@@ -38,13 +38,14 @@ block content
             a(href='/book/'+book.id) #{book.title}
           td
             a(href='/patron/'+rowItem.Patron.id) #{rowItem.Patron.first_name} #{rowItem.Patron.last_name}
-          td #{moment(rowItem.loaned_on).format('YYYY-MM-DD')}
-          td #{moment(rowItem.return_by).format('YYYY-MM-DD')}
+          
+          td #{rowItem.loaned_on}
+          td #{rowItem.return_by}
           td 
             if (!rowItem.returned_on)
              p null
             else
-             p #{moment(rowItem.returned_on).format('YYYY-MM-DD')}
+             p #{rowItem.returned_on}
           td
             if (!rowItem.returned_on)
              a.button(href='/book/return/'+rowItem.id) Return Book
